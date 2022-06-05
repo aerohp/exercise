@@ -8,7 +8,7 @@ services:
       - 8080:8080
     networks:
       - default
-      - restapi-challenge-network
+      - internal-network
 
   mongo:
     image: mongo
@@ -16,7 +16,7 @@ services:
     volumes:
       - mongo-mount-data:/data/db
     networks:
-      - restapi-challenge-network
+      - internal-network
 
   minio:
     image: quay.io/minio/minio:RELEASE.2022-04-08T19-44-35Z
@@ -28,11 +28,11 @@ services:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     networks:
-      - restapi-challenge-network
+      - internal-network
 
 networks:
-    restapi-challenge-network:
-      name: restapi-challenge-network
+    internal-network:
+      name: internal-network
 
 volumes:
     mongo-mount-data:
