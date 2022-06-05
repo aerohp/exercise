@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  video-web-app:
+    image: enhanced-videostore-web-app
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - default
+      - restapi-challenge-network
+
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - mongo-mount-data:/data/db
+    networks:
+      - restapi-challenge-network
+
+  minio:
+    image: quay.io/minio/minio:RELEASE.2022-04-08T19-44-35Z
+    hostname: minio
+    command: server /data --console-address ":9001"
+    volumes:
+      - minio-mount-data:/data
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    networks:
+      - restapi-challenge-network
+
+networks:
+    restapi-challenge-network:
+      name: restapi-challenge-network
+
+volumes:
+    mongo-mount-data:
+    minio-mount-data:
